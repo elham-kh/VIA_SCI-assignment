@@ -7,44 +7,14 @@ import csv
 
 def main():
 
+    # read csv file and extract data for female and male
     female_data, male_data = csv_reader('../data/data.csv')
-    #print (female_data[0][1], male_data[0][1])
 
-    file = open('../data/data.csv', 'r')
-    ListOfAllLines = []
-    for line in file:
-        ListOfAllLines.append(line)
-    x = []
-    y = []
-    z = []
-    w = []
-    for line in ListOfAllLines:
-        if line[0] == 'M':
-            split_line = get_split_line(line)
-            x.append(float(split_line[1]))
-            y.append(float(split_line[2]))
-        elif line[0] == 'F':
-            split_line = get_split_line(line)
-            z.append(float(split_line[1]))
-            w.append(float(split_line[2]))
-    counts_x, bin_edges_x = np.histogram(x, bins=100)
-    counts_y, bin_edges_y = np.histogram(y, bins=100)
-    counts_z, bin_edges_z = np.histogram(z, bins=100)
-    counts_w, bin_edges_w = np.histogram(w, bins=100)
-    column_width = np.min(bin_edges_x[1:] - bin_edges_x[:-1])
-    plt.bar(0.5*(bin_edges_x[1:] +bin_edges_x[:-1]),  counts_x, label='men\'s age', alpha=0.5, width=column_width)
-    column_width = np.min(bin_edges_z[1:] - bin_edges_z[:-1])
-    plt.bar(0.5*(bin_edges_z[1:] +bin_edges_z[:-1]),  counts_z, label='women\'s age', alpha=0.5, width=column_width)
-    plt.legend(loc=0)
-    plt.savefig('age_distribution.png')
-    plt.close()
-    column_width = np.min(bin_edges_y[1:] - bin_edges_y[:-1])
-    plt.bar(0.5*(bin_edges_y[1:] +bin_edges_y[:-1]),  counts_y, label='men\'s height', alpha=0.5, width=column_width)
-    column_width = np.min(bin_edges_w[1:] - bin_edges_w[:-1])
-    plt.bar(0.5*(bin_edges_w[1:] +bin_edges_w[:-1]),  counts_w, label='women\'s height', alpha=0.5, width=column_width)
-    plt.legend(loc=0)
-    plt.savefig('height_distribution.png')
-    file.close()
+    # plot age data
+    histogram_plot([row[0] for row in female_data],[row[0] for row in male_data],'women\'s age','men\'s age','age.png')
+
+    # plot height data
+    histogram_plot([row[1] for row in female_data],[row[1] for row in male_data],'women\'s height','men\'s height','height.png')
 
 # function to read csv files and assign data to separate lists for female and male
 def csv_reader(file_name):
@@ -60,5 +30,15 @@ def csv_reader(file_name):
                 male_data.append([float(row[1]),float(row[2])])
 
     return female_data, male_data
+
+def histogram_plot(x,y,x_label,y_label,file_name):
+    counts_x, bin_edges_x = np.histogram(x, bins=50)
+    counts_y, bin_edges_y = np.histogram(y, bins=50)
+    column_width = np.min(bin_edges_x[1:] - bin_edges_x[:-1])
+    plt.bar(0.5*(bin_edges_x[1:] +bin_edges_x[:-1]),  counts_x, label=x_label, alpha=0.5, width=column_width)
+    plt.bar(0.5*(bin_edges_y[1:] +bin_edges_y[:-1]),  counts_y, label=y_label, alpha=0.5, width=column_width)
+    plt.legend(loc=0)
+    plt.savefig(file_name)
+    plt.close()
 
 main()
