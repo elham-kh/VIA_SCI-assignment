@@ -21,11 +21,14 @@ def csv_reader(file_name):
     return female_data, male_data
 
 # function to plot the data in histogram form
-def histogram_plot(x,y,x_label,y_label,file_name):
+def histogram_plot(x,y,x_label,y_label,file_name,hist_title,x_label_name):
     counts_x, bin_edges_x, counts_y, bin_edges_y, column_width = calculate_histogram(x,y)
     plt.bar(0.5*(bin_edges_x[1:] +bin_edges_x[:-1]),  counts_x, label=x_label, alpha=0.5, width=column_width)
     plt.bar(0.5*(bin_edges_y[1:] +bin_edges_y[:-1]),  counts_y, label=y_label, alpha=0.5, width=column_width)
     plt.legend(loc=0)
+    plt.title(hist_title)
+    plt.xlabel(x_label_name)
+    plt.ylabel("Frequecy")
     file_path = path.join('results', file_name)
     plt.savefig(file_path)
     plt.close()
