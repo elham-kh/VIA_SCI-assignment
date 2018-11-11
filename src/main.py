@@ -1,9 +1,15 @@
-from src.utils import get_split_line
+#from src.utils import get_split_line
+from utils import *
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
 
 def main():
+
+    female_data, male_data = csv_reader('../data/data.csv')
+    #print (female_data[0][1], male_data[0][1])
+
     file = open('../data/data.csv', 'r')
     ListOfAllLines = []
     for line in file:
@@ -39,4 +45,20 @@ def main():
     plt.legend(loc=0)
     plt.savefig('height_distribution.png')
     file.close()
+
+# function to read csv files and assign data to separate lists for female and male
+def csv_reader(file_name):
+    female_data = []
+    male_data = []
+    with open(file_name, mode='r') as csv_file:
+        csv_data = csv.reader(csv_file)
+        header = next(csv_data)     # skip the file header
+        for row in csv_data:
+            if row[0] == 'F':
+                female_data.append([float(row[1]),float(row[2])])
+            elif row[0] == 'M':
+                male_data.append([float(row[1]),float(row[2])])
+
+    return female_data, male_data
+
 main()
