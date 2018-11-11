@@ -30,3 +30,6 @@ Spend no more than 2 hours on this assignment. To keep the scope small, here is 
 The goal of this assignment is to show how you think about code. Please submit your work
 as a tar ball of your updated git repo along with a brief document describing your thoughts on what was wrong with 
 the initial code, what you did to make it better, etc.
+
+**************************************************************************************
+To test the code go to src/tests and run pytest test_utils.py
