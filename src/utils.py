@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
+from os import path
 
 
 
@@ -19,12 +20,19 @@ def csv_reader(file_name):
 
     return female_data, male_data
 
+# function to plot the data in histogram form
 def histogram_plot(x,y,x_label,y_label,file_name):
-    counts_x, bin_edges_x = np.histogram(x, bins=50)
-    counts_y, bin_edges_y = np.histogram(y, bins=50)
-    column_width = np.min(bin_edges_x[1:] - bin_edges_x[:-1])
+    counts_x, bin_edges_x, counts_y, bin_edges_y, column_width = calculate_histogram(x,y)
     plt.bar(0.5*(bin_edges_x[1:] +bin_edges_x[:-1]),  counts_x, label=x_label, alpha=0.5, width=column_width)
     plt.bar(0.5*(bin_edges_y[1:] +bin_edges_y[:-1]),  counts_y, label=y_label, alpha=0.5, width=column_width)
     plt.legend(loc=0)
-    plt.savefig(file_name)
+    file_path = path.join('results', file_name)
+    plt.savefig(file_path)
     plt.close()
+
+# function to generate histogram
+def calculate_histogram(x,y):
+    counts_x, bin_edges_x = np.histogram(x, bins=50)
+    counts_y, bin_edges_y = np.histogram(y, bins=50)
+    column_width = np.min(bin_edges_x[1:] - bin_edges_x[:-1])
+    return  counts_x, bin_edges_x, counts_y, bin_edges_y, column_width
